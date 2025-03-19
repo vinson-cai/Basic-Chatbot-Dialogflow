@@ -11,7 +11,7 @@ webApp.use(express.urlencoded({
 webApp.use(express.json());
 
 // Server Port
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Home route
 webApp.get('/', (req, res) => {
@@ -22,7 +22,6 @@ const DIALOGFLOW_API = require('../helper_functions/dialogflow_api');
 
 // Website widget route
 webApp.get('/website', async (req, res) => {
-
     let text = req.query.text;
     let sessionId = req.query.mysession;
 
@@ -31,6 +30,9 @@ webApp.get('/website', async (req, res) => {
     console.log(`Session id --> ${sessionId}`);
 
     let intentData = await DIALOGFLOW_API.detectIntent('en', text, sessionId);
+
+    console.log("INTENT DATA:");
+    console.log(intentData);
 
     res.setHeader('Access-Control-Allow-Origin', '*');
 

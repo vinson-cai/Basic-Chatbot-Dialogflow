@@ -10,7 +10,7 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
 }
 
 /* Track */
@@ -211,7 +211,7 @@ mybot .resultDiv .botResult {
 
 mybot .resultDiv .userEnteredText {
   /* This is the color of background of
-     user entered text 
+     user entered text
   */
   background: green;
   float: right;

@@ -1,7 +1,7 @@
 const dialogflow = require('@google-cloud/dialogflow');
 const fs = require('fs');
 
-const CREDENTIALS = JSON.parse(fs.readFileSync('./testingaog-wlgdsq-f6e2adaf866c.json', 'utf-8'));
+const CREDENTIALS = JSON.parse(fs.readFileSync('./student-wellbeing-chatbot-9bui-4c7bd588f1aa.json', 'utf-8'));
 
 const PROJECID = CREDENTIALS.project_id;
 
@@ -30,19 +30,38 @@ const detectIntent = async (languageCode, queryText, sessionId) => {
 
     try {
         const responses = await sessionClient.detectIntent(request);
-        const result = responses[0].queryResult;
+        console.log("DATA:");
+        console.log(responses);
+
+        const r = responses[0].queryResult;
+
+        // fulfillmentText = chatbot response, convert to JSON for reason I do not yet know
+        result = JSON.stringify({
+            text: r.fulfillmentText,
+            buttons: ["I like this response", "I don't like this response"] // pressing the buttons registers it as a text message from user
+        });
+
         return {
             status: 1,
-            text: result.fulfillmentText
+            text: result
         };
     } catch (error) {
         console.log(`Error at dialogflow-api.js detectIntent --> ${error}`);
         return {
-            status: 0,
+            status: 1,
+            // text: '{"text": "I don\'t quite understand what you said.", "buttons": [\'button 1\', \'button 2\']}'
             text: 'Error at dialogflow detect intent.'
         };
     }
 };
+
+detectIntent('en', 'hello', 'abcdefg123456')
+    .then((res) => {
+        console.log(res);
+    })
+//     .then((res) => {
+//         console.log(err);
+//     })
 
 module.exports = {
     detectIntent
